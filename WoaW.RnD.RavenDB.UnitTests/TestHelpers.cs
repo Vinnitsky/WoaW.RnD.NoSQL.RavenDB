@@ -1,0 +1,90 @@
+﻿using Raven.Client.Document;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using WoaW.RnD.RavenDB.UnitTests.Entities;
+
+namespace WoaW.RnD.RavenDB.UnitTests 
+{
+    class TestHelpers
+    {
+        public static void CreateCustomers(int num)
+        {
+
+            var list = new List<Customer>();
+            for (int i = 0; i < num; i++)
+            {
+                var customer = new Customer() { Id = string.Format("{0}", i), Title = string.Format("Mr. {0}", i), Name = string.Format("Name:{0}", i), Email = string.Format("{0}@live.com", i) };
+                list.Add(customer);
+            }
+
+            var pgNo = 0;
+            var pgSize = 30;
+            var maxPgNo = num / pgSize;
+
+            while (pgNo <= maxPgNo)
+            {
+                using (var store = new DocumentStore { ConnectionStringName = "ravenDB" }.Initialize())
+                {
+                    using (var session = store.OpenSession("WoaW.Raven.FirstApp"))
+                    {
+                        var records = GetPage(list, pgNo, pgSize);
+                        foreach (var customer in records)
+                        {
+                            session.Store(customer);
+                        }
+                        session.SaveChanges();
+                    }
+
+                    //System.Diagnostics.Debug.WriteLine(string.Format("item:{0}", ii++));
+                    //System.Diagnostics.Debug.WriteLine(string.Format("CUSTOMER: Id={0}, Name={1}, Email={2}",
+                    //       customer.Id, customer.Name, customer.Email));
+                }
+                pgNo = pgNo + 1;
+            }
+        }
+        public static IList<Customer> GetPage(IList<Customer> list, int page, int pageSize)
+        {
+            return list.Skip(page * pageSize).Take(pageSize).ToList();
+        }
+        internal static void DeleteAllCustomers()
+        {
+            throw new NotImplementedException();
+        }
+        public static void CreateOrderRecord(int i)
+        {
+            using (var store = new DocumentStore { ConnectionStringName = "ravenDB" }.Initialize())
+            {
+                using (var session = store.OpenSession("WoaW.Raven.FirstApp"))
+                {
+                    var order = new Order()
+                    {
+                        Id = i.ToString(),
+                        Title = "Description for Mr. Who",
+                        Customer = new CustomerReference() { Id = i.ToString(), Title = "Mr. Who" }
+                    };
+                    session.Store(order);
+                    session.SaveChanges();
+                }
+            }
+        }
+
+        public static void DumpCustomers(IEnumerable<Customer> list)
+        {
+            foreach (var customer in list)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("CUSTOMER: Id={0}, Name={1}, Email={2}",
+                    customer.Id, customer.Name, customer.Email));
+            }
+        }
+        public static void DumpCustomers(IEnumerable<ShortCustomer> list)
+        {
+            foreach (var customer in list)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("CUSTOMER: Id={0}, Name={1}", customer.Id, customer.Name));
+            }
+        }
+    }
+}

@@ -1,0 +1,4 @@
+{
+  "TransformResults": "from customer in results select new { customer.Id, customer.Name };",
+  "Name": "Customers/MyTras_a2"
+}

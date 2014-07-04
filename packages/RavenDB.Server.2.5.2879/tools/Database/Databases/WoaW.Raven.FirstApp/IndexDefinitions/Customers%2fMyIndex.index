@@ -1,0 +1,23 @@
+{
+  "Name": "Customers/MyIndex",
+  "LockMode": "Unlock",
+  "Map": "from customer in docs.Customers select new { customer.Id, customer.Name }",
+  "Maps": [
+    "from customer in docs.Customers select new { customer.Id, customer.Name }"
+  ],
+  "Reduce": null,
+  "TransformResults": null,
+  "IsMapReduce": false,
+  "IsCompiled": false,
+  "Stores": {},
+  "Indexes": {},
+  "SortOptions": {},
+  "Analyzers": {},
+  "Fields": [],
+  "Suggestions": {},
+  "TermVectors": {},
+  "SpatialIndexes": {},
+  "InternalFieldsMapping": null,
+  "Type": "Map",
+  "DisableInMemoryIndexing": false
+}
