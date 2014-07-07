@@ -81,9 +81,45 @@ namespace WoaW.RnD.RavenDB.UnitTests
         }
         public static void DumpCustomers(IEnumerable<ShortCustomer> list)
         {
-            foreach (var customer in list)
+            foreach (var item in list)
             {
-                System.Diagnostics.Debug.WriteLine(string.Format("CUSTOMER: Id={0}, Name={1}", customer.Id, customer.Name));
+                System.Diagnostics.Debug.WriteLine(string.Format("CUSTOMER: Id={0}, Name={1}", item.Id, item.Name));
+            }
+        }
+
+        internal static void DumpOrders(List<Order> orders)
+        {
+            foreach (var item in orders)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("ORDER: Id={0}, Title={1}", item.Id, item.Title));
+                //foreach (var task in item)
+                //{
+                //    System.Diagnostics.Debug.WriteLine(string.Format("/t TASK: Id={0}, Subject={1}", task.Id, task.Subject));
+                //}
+            }
+        }
+
+        internal static void DumpOrders(List<Orders_OrdersCountByTaskSubj.ReduceResult> orders)
+        {
+            foreach (var item in orders)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("ORDER: Id={0}, Title={1}", item.Count, item.Subj));
+                //foreach (var task in item)
+                //{
+                //    System.Diagnostics.Debug.WriteLine(string.Format("/t TASK: Id={0}, Subject={1}", task.Id, task.Subject));
+                //}
+            }
+        }
+
+        internal static void DumpOrders(List<OrderCount> orders)
+        {
+            foreach (var item in orders)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("ORDER: Id={0}, Title={1}", item.Count, item.Subj));
+                //foreach (var task in item)
+                //{
+                //    System.Diagnostics.Debug.WriteLine(string.Format("/t TASK: Id={0}, Subject={1}", task.Id, task.Subject));
+                //}
             }
         }
     }

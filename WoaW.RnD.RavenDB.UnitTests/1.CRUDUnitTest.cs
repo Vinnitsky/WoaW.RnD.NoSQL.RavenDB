@@ -7,36 +7,52 @@ using System.Linq;
 
 namespace WoaW.RnD.RavenDB.UnitTests 
 {
+    /// <summary>
+    /// класс создан для демонстрации реализации CRUD
+    /// </summary>
     [TestClass]
     public class CRUDUnitTest
     {
         /// <summary>
-        /// 
+        /// метод демонстрирует подключения. кстрока соединения увлючена в код.  
+        /// в строке подключения используется IP адрес для того чтобы дать возможность 
+        /// Fiddler прослушивать это соединение
         /// </summary>
         [TestMethod]
+        [TestCategory("CRUD")]
         public void Connection_InCode_SuccessTest()
         {
-            using (var store = new DocumentStore { Url = "http://localhost:8080/" }.Initialize())
+            using (var store = new DocumentStore { Url = "http://127.0.0.1:8080/" }.Initialize())
             {
                 using (var session = store.OpenSession("WoaW.Raven.FirstApp"))
                 {
-                    //var books = session.Query<Book>().ToList();
                 }
             }
         }
+
+        /// <summary>
+        /// метод демонстрирует подключение с использоваине строки соединения в конфигурационном файла.
+        /// </summary>
         [TestMethod]
+        [TestCategory("CRUD")]
         public void Connection_UsingAppConfig_SuccessTest()
         {
             using (var store = new DocumentStore { ConnectionStringName = "ravenDB" }.Initialize())
             {
                 using (var session = store.OpenSession("WoaW.Raven.FirstApp"))
                 {
-                    //var books = session.Query<Book>().ToList();
                 }
             }
         }
 
+        /// <summary>
+        /// метод возвращает скисок кастомеров. метод расчитан на небольшое число возвращаемых эьектов
+        /// так как RavenDB имеет предопределенное ограничение на запрос - 128 элементов, то для того 
+        /// чтобы получить больше  нужно исопльзовать постраничный подход. в двльнейшем будет приведен 
+        /// пример того как запросить и получить все элементы хранилища без пейджинга
+        /// </summary>
         [TestMethod]
+        [TestCategory("CRUD")]
         public void EnumerateCustomers_SuccessTest()
         {
             using (var store = new DocumentStore { ConnectionStringName = "ravenDB" }.Initialize())
@@ -49,6 +65,7 @@ namespace WoaW.RnD.RavenDB.UnitTests
             }
         }
         [TestMethod]
+        [TestCategory("CRUD")]
         public void GetElementById_SuccessTest()
         {
             using (var store = new DocumentStore { ConnectionStringName = "ravenDB" }.Initialize())
@@ -61,7 +78,12 @@ namespace WoaW.RnD.RavenDB.UnitTests
                 }
             }
         }
+
+        /// <summary>
+        /// метод демонстрирует создание документа 
+        /// </summary>
         [TestMethod]
+        [TestCategory("CRUD")]
         public void CreateNewCustomer_SuccessTest()
         {
             using (var store = new DocumentStore { ConnectionStringName = "ravenDB" }.Initialize())
@@ -74,7 +96,12 @@ namespace WoaW.RnD.RavenDB.UnitTests
                 }
             }
         }
+
+        /// <summary>
+        /// метод демонстрирует удаление документа с хранилища
+        /// </summary>
         [TestMethod]
+        [TestCategory("CRUD")]
         public void DeleteCustomer_SuccessTest()
         {
             using (var store = new DocumentStore { ConnectionStringName = "ravenDB" }.Initialize())
@@ -85,8 +112,13 @@ namespace WoaW.RnD.RavenDB.UnitTests
                     session.SaveChanges();
                 }
             }
-        }        
+        }   
+     
+        /// <summary>
+        /// метод демоснтрирует обновление документа 
+        /// </summary>
         [TestMethod]
+        [TestCategory("CRUD")]
         public void Update_SuccessTest()
         {
             using (var store = new DocumentStore { ConnectionStringName = "ravenDB" }.Initialize())

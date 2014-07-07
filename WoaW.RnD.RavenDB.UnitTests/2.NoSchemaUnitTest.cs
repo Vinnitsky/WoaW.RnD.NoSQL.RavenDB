@@ -8,12 +8,18 @@ namespace WoaW.RnD.RavenDB.UnitTests
     [TestClass]
     public class NoSchemaUnitTest
     {
+        /// <summary>
+        /// class A version 1
+        /// </summary>
         class B
         {
             public int Id { get; set; }
             public string Field1 { get; set; }
         }
 
+        /// <summary>
+        /// class A version 2
+        /// </summary>
         class A
         {
             public int Id { get; set; }

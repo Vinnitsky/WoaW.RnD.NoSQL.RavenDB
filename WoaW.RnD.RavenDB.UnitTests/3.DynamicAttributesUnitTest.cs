@@ -24,24 +24,9 @@ namespace WoaW.RnD.RavenDB.UnitTests
     public class DynamicAttributesUnitTest
     {
         /// <summary>
-        /// add dictionary of properties for document and then query new properties
+        /// в методе демонстрируется как обавляется свойство в ассоциативный масив 
+        /// м после этого документ отправляется в хранилище
         /// </summary>
-        [TestMethod]
-        [TestCategory("DynamicAttributes")]
-        public void Query_DynamicProperties_SuccessTest()
-        {
-            using (var store = new DocumentStore { ConnectionStringName = "ravenDB" }.Initialize())
-            {
-                using (var session = store.OpenSession("WoaW.Raven.FirstApp"))
-                {
-                    var query = from e in session.Query<Entity1>() where e.Attributes["a2"] == "a2" select e;
-                    foreach (var item in query.ToList())
-                    {
-                        System.Diagnostics.Debug.WriteLine(string.Format("Entity: Id={0}, Name={1}", item.Id, item.Attributes["a2"]));
-                    }
-                }
-            }
-        }
         [TestMethod]
         [TestCategory("DynamicAttributes")]
         public void Add_DynamicProperties_SuccessTest()
@@ -64,10 +49,29 @@ namespace WoaW.RnD.RavenDB.UnitTests
                     e3.Attributes["a3"] = "a3";
                     session.Store(e3);
                     session.SaveChanges();
-
-
                 }
             }
         }
+
+        /// <summary>
+        /// в методе демонстрируется выборку документа по значениям в ассоциативном масиве
+        /// </summary>
+        [TestMethod]
+        [TestCategory("DynamicAttributes")]
+        public void Query_DynamicProperties_SuccessTest()
+        {
+            using (var store = new DocumentStore { ConnectionStringName = "ravenDB" }.Initialize())
+            {
+                using (var session = store.OpenSession("WoaW.Raven.FirstApp"))
+                {
+                    var query = from e in session.Query<Entity1>() where e.Attributes["a2"] == "a2" select e;
+                    foreach (var item in query.ToList())
+                    {
+                        System.Diagnostics.Debug.WriteLine(string.Format("Entity: Id={0}, Name={1}", item.Id, item.Attributes["a2"]));
+                    }
+                }
+            }
+        }
+
     }
 }

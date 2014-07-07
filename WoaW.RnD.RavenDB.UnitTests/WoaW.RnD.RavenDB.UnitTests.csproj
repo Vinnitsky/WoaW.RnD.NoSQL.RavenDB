@@ -60,22 +60,23 @@
   <ItemGroup>
     <Compile Include="BatchCommandUnitTest.cs" />
     <Compile Include="CompositEntityUnitTest.cs" />
-    <Compile Include="CRUDUnitTest.cs" />
+    <Compile Include="1.CRUDUnitTest.cs" />
     <Compile Include="DeleteAllDocumentsUnitTest.cs" />
-    <Compile Include="DynamicAttributesUnitTest.cs" />
+    <Compile Include="3.DynamicAttributesUnitTest.cs" />
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\CustomerReference.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\Task.cs" />
     <Compile Include="IncludeUnitTest.cs" />
     <Compile Include="MoreThen1024ElementsUnitTests.cs" />
-    <Compile Include="NoSchemaUnitTest.cs" />
+    <Compile Include="2.NoSchemaUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueriesUnitTests.cs" />
     <Compile Include="TestHelpers.cs" />
     <Compile Include="TransformationUnitTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="4.IndexesUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
