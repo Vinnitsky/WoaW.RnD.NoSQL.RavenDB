@@ -47,6 +47,46 @@ namespace WoaW.RnD.RavenDB.UnitTests
     [TestClass]
     public class IndexesUnitTests
     {
+        private TestContext testContextInstance;
+
+        /// <summary>
+        ///Gets or sets the test context which provides
+        ///information about and functionality for the current test run.
+        ///</summary>
+        public TestContext TestContext
+        {
+            get
+            {
+                return testContextInstance;
+            }
+            set
+            {
+                testContextInstance = value;
+            }
+        }
+
+        #region Additional test attributes
+        //
+        // You can use the following additional attributes as you write your tests:
+        //
+        // Use ClassInitialize to run code before running the first test in the class
+        // [ClassInitialize()]
+        // public static void MyClassInitialize(TestContext testContext) { }
+        //
+        // Use ClassCleanup to run code after all tests in a class have run
+        // [ClassCleanup()]
+        // public static void MyClassCleanup() { }
+        //
+        // Use TestInitialize to run code before running each test 
+        // [TestInitialize()]
+        // public void MyTestInitialize() { }
+        //
+        // Use TestCleanup to run code after each test has run
+        // [TestCleanup()]
+        // public void MyTestCleanup() { }
+        //
+        #endregion
+
         [TestMethod]
         public void DefineNewIndex_M1_SeccessTest()
         {
@@ -114,7 +154,7 @@ namespace WoaW.RnD.RavenDB.UnitTests
             {
                 using (var session = store.OpenSession("WoaW.Raven.FirstApp"))
                 {
-                    CreateOrder(session);
+                    TestHelpers.CreateOrderRecord(session);
 
                     var result = session.Query<OrderCount>("OrdersCountByTask_Temp").FirstOrDefault(x => x.Subj  == "aa");
 
@@ -122,25 +162,6 @@ namespace WoaW.RnD.RavenDB.UnitTests
                     System.Diagnostics.Debug.WriteLine(string.Format("ORDER: Id={0}, Title={1}", result.Count, result.Subj));
                 }
             }
-        }
-
-        private static void CreateOrder(Raven.Client.IDocumentSession session)
-        {
-            var r = session.Load<Order>("order1");
-            if (r != null)
-                return;
-
-            var order = new Order()
-            {
-                Id = "order1",
-                Tasks = new System.Collections.Generic.List<Task>() 
-                        { 
-                            new Task() { Id = "task1", Subject = "aa" }, 
-                            new Task() { Id = "task2", Subject = "aa-bb" }, 
-                        }
-            };
-            session.Store(order);
-            session.SaveChanges();
         }
 
         [TestMethod]

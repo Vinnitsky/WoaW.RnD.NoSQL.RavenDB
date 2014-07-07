@@ -53,22 +53,26 @@ namespace WoaW.RnD.RavenDB.UnitTests
         {
             throw new NotImplementedException();
         }
-        public static void CreateOrderRecord(int i)
+        public static void CreateOrderRecord(Raven.Client.IDocumentSession session)
         {
-            using (var store = new DocumentStore { ConnectionStringName = "ravenDB" }.Initialize())
+            if (session == null)
+                throw new ArgumentNullException();
+
+            var r = session.Load<Order>("order1");
+            if (r != null)
+                return;
+
+            var order = new Order()
             {
-                using (var session = store.OpenSession("WoaW.Raven.FirstApp"))
-                {
-                    var order = new Order()
-                    {
-                        Id = i.ToString(),
-                        Title = "Description for Mr. Who",
-                        Customer = new CustomerReference() { Id = i.ToString(), Title = "Mr. Who" }
-                    };
-                    session.Store(order);
-                    session.SaveChanges();
-                }
-            }
+                Id = "1",
+                Title = "Order 1",
+                Customer = new CustomerReference() { Id = "1", Title = "Mr. Who" }
+            };
+            session.Store(order);
+
+            var customer = new Customer() { Id = "1", Title = "Mr.", Name = "Who ", Email = "who@live.com" };
+            session.Store(order);
+            session.SaveChanges();
         }
 
         public static void DumpCustomers(IEnumerable<Customer> list)
