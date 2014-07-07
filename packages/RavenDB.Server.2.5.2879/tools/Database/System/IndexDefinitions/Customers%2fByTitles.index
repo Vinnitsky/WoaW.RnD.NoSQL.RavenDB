@@ -1,0 +1,23 @@
+{
+  "Name": "Customers/ByTitles",
+  "LockMode": "Unlock",
+  "Map": "docs.Customers.Select(customer => new {\r\n    Title = customer.Title\r\n})",
+  "Maps": [
+    "docs.Customers.Select(customer => new {\r\n    Title = customer.Title\r\n})"
+  ],
+  "Reduce": null,
+  "TransformResults": null,
+  "IsMapReduce": false,
+  "IsCompiled": false,
+  "Stores": {},
+  "Indexes": {},
+  "SortOptions": {},
+  "Analyzers": {},
+  "Fields": [],
+  "Suggestions": {},
+  "TermVectors": {},
+  "SpatialIndexes": {},
+  "InternalFieldsMapping": null,
+  "Type": "Map",
+  "DisableInMemoryIndexing": false
+}

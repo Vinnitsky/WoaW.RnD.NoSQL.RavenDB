@@ -1,0 +1,27 @@
+{
+  "Name": "OrdersCountByTask_Temp",
+  "LockMode": "Unlock",
+  "Map": "from order in docs.Orders\r\n\tfrom task in order.Tasks\r\n    select new\r\n    {\r\n    \tSubj = task.Subject,\r\n        Count = 1\r\n    }",
+  "Maps": [
+    "from order in docs.Orders\r\n\tfrom task in order.Tasks\r\n    select new\r\n    {\r\n    \tSubj = task.Subject,\r\n        Count = 1\r\n    }"
+  ],
+  "Reduce": "from result in results\r\n\tgroup result by result.Subj\r\n    \tinto g\r\n        select new\r\n        {\r\n        \tSubj = g.Key,\r\n            Count = g.Sum(x => x.Count)\r\n        }",
+  "TransformResults": null,
+  "IsMapReduce": true,
+  "IsCompiled": false,
+  "Stores": {},
+  "Indexes": {},
+  "SortOptions": {},
+  "Analyzers": {},
+  "Fields": [
+    "Subj",
+    "Count",
+    "__document_id"
+  ],
+  "Suggestions": {},
+  "TermVectors": {},
+  "SpatialIndexes": {},
+  "InternalFieldsMapping": null,
+  "Type": "MapReduce",
+  "DisableInMemoryIndexing": false
+}

@@ -157,7 +157,6 @@ namespace WoaW.RnD.RavenDB.UnitTests
                     Assert.IsNotNull(indexDefinition);
 
                     var result = session.Query<Orders_OrdersCountByTaskSubj.ReduceResult, Orders_OrdersCountByTaskSubj>().FirstOrDefault(x => x.Subj == "aa");
-                    //var result = session.Query<OrderCount>("Orders/OrdersCountByTaskSubj").FirstOrDefault(x => x.Subj == "aa");
                     System.Diagnostics.Debug.WriteLine(string.Format("ORDER: Id={0}, Title={1}", result.Count, result.Subj));
 
                 }

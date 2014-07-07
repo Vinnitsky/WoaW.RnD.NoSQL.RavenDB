@@ -1,0 +1,23 @@
+{
+  "Name": "Orders/OrdersCountByTaskSubj",
+  "LockMode": "Unlock",
+  "Map": "docs.Orders.SelectMany(order => order.Tasks, (order, task) => new {\r\n    Subj = task.Subject,\r\n    Count = 1\r\n})",
+  "Maps": [
+    "docs.Orders.SelectMany(order => order.Tasks, (order, task) => new {\r\n    Subj = task.Subject,\r\n    Count = 1\r\n})"
+  ],
+  "Reduce": "results.GroupBy(result => result.Subj).Select(g => new {\r\n    Subj = g.Key,\r\n    Count = Enumerable.Sum(g, x => ((int) x.Count))\r\n})",
+  "TransformResults": null,
+  "IsMapReduce": true,
+  "IsCompiled": false,
+  "Stores": {},
+  "Indexes": {},
+  "SortOptions": {},
+  "Analyzers": {},
+  "Fields": [],
+  "Suggestions": {},
+  "TermVectors": {},
+  "SpatialIndexes": {},
+  "InternalFieldsMapping": null,
+  "Type": "MapReduce",
+  "DisableInMemoryIndexing": false
+}
