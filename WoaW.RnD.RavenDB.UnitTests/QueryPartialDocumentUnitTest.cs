@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WoaW.RnD.RavenDB.UnitTests.Entities;
+using Raven.Client.Document;
 
 namespace WoaW.RnD.RavenDB.UnitTests
 {
@@ -36,13 +39,22 @@ namespace WoaW.RnD.RavenDB.UnitTests
             {
                 using (var session = store.OpenSession("WoaW.Raven.FirstApp"))
                 {
-                    var customers1 = session.Query<Customer>("Customers/MyIndex")
-                    .Select(c => new Customer { Name = c.Name, Id = c.Id })
-                    .ToList();
+                    //string id = "customer1";
+                    //TestHelpers.CreateCustomers(session, id);
+
+                    var customers1 = session.Query<Customer>("MyIndex").Select(c => new Customer { Name = c.Name, Id = c.Id })
+                                        .ToList();
                     TestHelpers.DumpCustomers(customers1);
 
-                    var customers2 = session.Query<Customer>("Customers/MyIndex").ToList();
+                    var customers2 = (from c in session.Query<Customer>("MyIndex")
+                                      select new Customer { Name = c.Name, Id = c.Id }).ToList();
                     TestHelpers.DumpCustomers(customers2);
+
+
+                    var customers3 = session.Query<Customer>("MyIndex").ToList();
+                    TestHelpers.DumpCustomers(customers3);
+
+                    //TestHelpers.DeleteCustomer(session, id);
                 }
             }
         }

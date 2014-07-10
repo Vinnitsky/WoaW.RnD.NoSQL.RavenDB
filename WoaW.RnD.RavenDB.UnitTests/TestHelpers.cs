@@ -1,4 +1,5 @@
-﻿using Raven.Client.Document;
+﻿using Raven.Client;
+using Raven.Client.Document;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,36 @@ namespace WoaW.RnD.RavenDB.UnitTests
         {
             throw new NotImplementedException();
         }
+        internal static void DeleteCustomer(IDocumentSession  session, string id)
+        {
+            if (session == null)
+                throw new ArgumentNullException("session");
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentNullException("id");
+
+            session.Delete(id);
+            session.SaveChanges();
+        }
+        internal static void CreateCustomers(IDocumentSession session, string id)
+        {
+            if (session == null)
+                throw new ArgumentNullException("session");
+            if(string.IsNullOrWhiteSpace(id))
+                throw new ArgumentNullException("id");
+
+            var customer = new Customer() { Id = id, Title = string.Format("Mr. {0}", id), Name = string.Format("Name:{0}", id), Email = string.Format("{0}@live.com", id) };
+            session.Store(customer);
+            session.SaveChanges();
+        }
+        public static void DumpCustomers(IEnumerable<Customer> list)
+        {
+            foreach (var customer in list)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("CUSTOMER: Id={0}, Name={1}, Email={2}",
+                    customer.Id, customer.Name, customer.Email));
+            }
+        }
+
         public static void CreateOrderRecord(Raven.Client.IDocumentSession session)
         {
             if (session == null)
@@ -75,14 +106,6 @@ namespace WoaW.RnD.RavenDB.UnitTests
             session.SaveChanges();
         }
 
-        public static void DumpCustomers(IEnumerable<Customer> list)
-        {
-            foreach (var customer in list)
-            {
-                System.Diagnostics.Debug.WriteLine(string.Format("CUSTOMER: Id={0}, Name={1}, Email={2}",
-                    customer.Id, customer.Name, customer.Email));
-            }
-        }
         public static void DumpCustomers(IEnumerable<ShortCustomer> list)
         {
             foreach (var item in list)
@@ -90,7 +113,6 @@ namespace WoaW.RnD.RavenDB.UnitTests
                 System.Diagnostics.Debug.WriteLine(string.Format("CUSTOMER: Id={0}, Name={1}", item.Id, item.Name));
             }
         }
-
         internal static void DumpOrders(List<Order> orders)
         {
             foreach (var item in orders)
@@ -102,7 +124,6 @@ namespace WoaW.RnD.RavenDB.UnitTests
                 //}
             }
         }
-
         internal static void DumpOrders(List<Orders_OrdersCountByTaskSubj.ReduceResult> orders)
         {
             foreach (var item in orders)
@@ -114,7 +135,6 @@ namespace WoaW.RnD.RavenDB.UnitTests
                 //}
             }
         }
-
         internal static void DumpOrders(List<OrderCount> orders)
         {
             foreach (var item in orders)
@@ -126,5 +146,6 @@ namespace WoaW.RnD.RavenDB.UnitTests
                 //}
             }
         }
+
     }
 }
