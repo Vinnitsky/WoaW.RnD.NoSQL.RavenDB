@@ -77,6 +77,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="4.IndexesUnitTests.cs" />
+    <Compile Include="QueryPartialDocumentUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

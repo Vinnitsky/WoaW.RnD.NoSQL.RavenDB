@@ -1,9 +1,9 @@
 {
-  "Name": "Customers/ByTitles",
+  "Name": "MyIndex",
   "LockMode": "Unlock",
-  "Map": "docs.Customers.Select(customer => new {\r\n    Title = customer.Title\r\n})",
+  "Map": "from customer in docs.Customers select new {Id = customer.Id, Title = customer.Title}",
   "Maps": [
-    "docs.Customers.Select(customer => new {\r\n    Title = customer.Title\r\n})"
+    "from customer in docs.Customers select new {Id = customer.Id, Title = customer.Title}"
   ],
   "Reduce": null,
   "TransformResults": null,

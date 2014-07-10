@@ -1,4 +1,0 @@
-{
-  "TransformResults": "results.Select(customer => new {\r\n    customer = customer,\r\n    category = this.LoadDocument(customer.Id)\r\n}).Select(this6 => new {\r\n    Id = this6.customer.Id,\r\n    Name = this6.customer.Name\r\n})",
-  "Name": "IdAndNamesOnly"
-}
