@@ -98,7 +98,7 @@ namespace WoaW.RnD.RavenDB.UnitTests
                 using (var session = store.OpenSession("WoaW.Raven.FirstApp"))
                 {
 
-                    TestHelpers.CreateCustomers(50);
+                    TestHelpers.CreateCustomers(50); 
 
                     var customers = from c in session.Query<Customer>() select c;
                     foreach (var item in customers)

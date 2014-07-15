@@ -32,7 +32,7 @@ namespace WoaW.RnD.RavenDB.UnitTests
                     using (var session = store.OpenSession("WoaW.Raven.FirstApp"))
                     {
                         var records = GetPage(list, pgNo, pgSize);
-                        foreach (var customer in records)
+                        foreach (var customer in records) 
                         {
                             session.Store(customer);
                         }
