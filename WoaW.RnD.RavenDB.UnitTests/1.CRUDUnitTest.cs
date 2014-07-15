@@ -5,7 +5,7 @@ using Raven.Client.Document;
 using WoaW.RnD.RavenDB.UnitTests.Entities;
 using System.Linq;
 
-namespace WoaW.RnD.RavenDB.UnitTests 
+namespace WoaW.RnD.RavenDB.UnitTests
 {
     /// <summary>
     /// класс создан для демонстрации реализации CRUD
@@ -87,6 +87,32 @@ namespace WoaW.RnD.RavenDB.UnitTests
         }
 
         /// <summary>
+        /// метод демонстрирует ограничения Session на 30 запросов в рамках сессии 
+        /// </summary>
+        [TestMethod]
+        [TestCategory("CRUD")]
+        public void Connection_SessionLimit_SuccessTest()
+        {
+            using (var store = new DocumentStore { ConnectionStringName = "ravenDB" }.Initialize())
+            {
+                using (var session = store.OpenSession("WoaW.Raven.FirstApp"))
+                {
+
+                    TestHelpers.CreateCustomers(50);
+
+                    var customers = from c in session.Query<Customer>() select c;
+                    foreach (var item in customers)
+                    {
+                        var customer =  session.Query<Customer>().SingleOrDefault(c=>c.Id ==item.Id );
+                        TestHelpers.DumpCustomer(customer);
+                    }
+
+                    TestHelpers.DeleteAllCustomers();
+                }
+            }
+        }
+
+        /// <summary>
         /// метод возвращает скисок кастомеров. метод расчитан на небольшое число возвращаемых эьектов
         /// так как RavenDB имеет предопределенное ограничение на запрос - 128 элементов, то для того 
         /// чтобы получить больше  нужно исопльзовать постраничный подход. в двльнейшем будет приведен 
@@ -153,8 +179,8 @@ namespace WoaW.RnD.RavenDB.UnitTests
                     session.SaveChanges();
                 }
             }
-        }   
-     
+        }
+
         /// <summary>
         /// метод демоснтрирует обновление документа 
         /// </summary>

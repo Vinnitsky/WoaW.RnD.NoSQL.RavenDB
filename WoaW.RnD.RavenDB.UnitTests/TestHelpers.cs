@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WoaW.RnD.RavenDB.UnitTests.Entities;
 
-namespace WoaW.RnD.RavenDB.UnitTests 
+namespace WoaW.RnD.RavenDB.UnitTests
 {
     class TestHelpers
     {
@@ -52,9 +52,8 @@ namespace WoaW.RnD.RavenDB.UnitTests
         }
         internal static void DeleteAllCustomers()
         {
-            throw new NotImplementedException();
         }
-        internal static void DeleteCustomer(IDocumentSession  session, string id)
+        internal static void DeleteCustomer(IDocumentSession session, string id)
         {
             if (session == null)
                 throw new ArgumentNullException("session");
@@ -68,7 +67,7 @@ namespace WoaW.RnD.RavenDB.UnitTests
         {
             if (session == null)
                 throw new ArgumentNullException("session");
-            if(string.IsNullOrWhiteSpace(id))
+            if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentNullException("id");
 
             var customer = new Customer() { Id = id, Title = string.Format("Mr. {0}", id), Name = string.Format("Name:{0}", id), Email = string.Format("{0}@live.com", id) };
@@ -82,6 +81,11 @@ namespace WoaW.RnD.RavenDB.UnitTests
                 System.Diagnostics.Debug.WriteLine(string.Format("CUSTOMER: Id={0}, Name={1}, Email={2}",
                     customer.Id, customer.Name, customer.Email));
             }
+        }
+        public static void DumpCustomer(Customer customer)
+        {
+            System.Diagnostics.Debug.WriteLine(string.Format("CUSTOMER: Id={0}, Name={1}, Email={2}",
+                customer.Id, customer.Name, customer.Email));
         }
 
         public static void CreateOrderRecord(Raven.Client.IDocumentSession session)
